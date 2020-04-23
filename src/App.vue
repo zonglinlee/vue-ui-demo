@@ -1,28 +1,21 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <lee-button >hello</lee-button>
+    <lee-button  type='primary'>hello</lee-button>
+    <lee-button  type='primary' plain>hello</lee-button>
+    <lee-button  type='primary' plain round>hello</lee-button>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
-
+import Vue from 'vue'
+import LeeButton from "./components/LeeButton.vue";
+Vue.component(LeeButton.name, LeeButton);
 export default {
   name: "App",
-  components: {
-    HelloWorld
-  }
+  components: {}
 };
 </script>
-
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
