@@ -1,6 +1,19 @@
 <template>
-  <button class="lee-button" :class="[`lee-button-${type}`,{'is-plain':plain,'is-round':round}]">
-    <span>
+  <!-- 组件身上注册了一个 'click' 事件 ，组件内部需要在适当的时机 比如这里的  
+  用户点击  的时候调用这个 绑定在组件上的监听函数  它的监听事件名称是 'click'，这里的 click 名称
+  和原生click 事件名称一样，但意义不一样，理解成自定义事件 当然你也可以自定义其他名称-->
+
+  <!-- 组件内部需要调用 $emit('eventName',eventObj) 触发组件上绑定的回调函数 -->
+  <button class="lee-button" 
+  :class="[`lee-button-${type}`,{'is-plain':plain,'is-round':round,'is-disabled':disabled}]"
+  :disabled="disabled"
+  @click="handleClick"
+  >
+    <!-- 如果不传入icon  就不显示i标签 -->
+    <i v-if="icon" :class="`iconfont icon-${icon}`"></i>
+    <!-- 如果不传入文字，之传入图标，就需要对span做处理，否则span元素有margin-left样式存在 -->
+    <!-- 如果传入了默认slot，就显示span，否则不显示 -->
+    <span v-if="$slots.default">
       <slot></slot>
     </span>
   </button>
@@ -9,6 +22,14 @@
 <script>
 export default {
   name: "leeButton",
+  methods:{
+    handleClick(e){
+      //通过原生click事件触发handleClick回调，进而调用$emit()函数，触发组件上绑定的'click'自定义事件
+      //Trigger an event on the current instance.
+      // Any additional arguments will be passed into the listener’s callback function.
+      this.$emit('click',e)
+    }
+  },
   props: {
     type: {
       type: String,
@@ -21,6 +42,14 @@ export default {
     round: {
       type: Boolean,
       default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    icon: {
+      type: String,
+      default: ""
     }
   }
 };
@@ -70,54 +99,6 @@ export default {
   }
 }
 
-.lee-button-success {
-  color: #fff;
-  background-color: #67c23a;
-  border-color: #67c23a;
-
-  &:hover, &:focus {
-    background: #85ce61;
-    background-color: #85ce61;
-    color: #fff;
-  }
-}
-
-.lee-button-info {
-  color: #fff;
-  background-color: #909399;
-  border-color: #909399;
-
-  &:hover, &:focus {
-    background: #a6a9ad;
-    background-color: #a6a9ad;
-    color: #fff;
-  }
-}
-
-.lee-button-warning {
-  color: #fff;
-  background-color: #e6a23c;
-  border-color: #e6a23c;
-
-  &:hover, &:focus {
-    background: #ebb563;
-    background-color: #ebb563;
-    color: #fff;
-  }
-}
-
-.lee-button-danger {
-  color: #fff;
-  background-color: #f56c6c;
-  border-color: #f56c6c;
-
-  &:hover, &:focus {
-    background: #f78989;
-    background-color: #f78989;
-    color: #fff;
-  }
-}
-
 // 朴素按钮样式
 .lee-button.is-plain {
   &:hover, &:focus {
@@ -138,50 +119,6 @@ export default {
   }
 }
 
-.lee-button-success.is-plain {
-  color: #67c23a;
-  background: #c2e7b0;
-
-  &:hover, &:focus {
-    background: #67c23a;
-    border-color: #67c23a;
-    color: #fff;
-  }
-}
-
-.lee-button-info.is-plain {
-  color: #909399;
-  background: #d3d4d6;
-
-  &:hover, &:focus {
-    background: #909399;
-    border-color: #909399;
-    color: #fff;
-  }
-}
-
-.lee-button-warning.is-plain {
-  color: #e6a23c;
-  background: #f5dab1;
-
-  &:hover, &:focus {
-    background: #e6a23c;
-    border-color: #e6a23c;
-    color: #fff;
-  }
-}
-
-.lee-button-danger.is-plain {
-  color: #f56c6c;
-  background: #fbc4c4;
-
-  &:hover, &:focus {
-    background: #f56c6c;
-    border-color: #f56c6c;
-    color: #fff;
-  }
-}
-
 // round属性
 .lee-button.is-round {
   border-radius: 20px;
@@ -194,13 +131,14 @@ export default {
   padding: 12px;
 }
 
-// icon配套样式
-.lee-button [class*=one-icon-]+span {
+// icon配套样式 class中包含iconfont的元素的后面的兄弟元素 span 设置margin-left属性
+.lee-button [class*=iconfont]+span {
   margin-left: 5px;
 }
 
 // disabled属性
 .lee-button.is-disabled {
   cursor: no-drop;
+  background-color:#ccc;
 }
 </style>
