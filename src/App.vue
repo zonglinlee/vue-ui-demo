@@ -11,22 +11,31 @@
       <lee-button type="primary" plain>hello</lee-button>
       <lee-button type="primary" plain round>hello</lee-button>
       <lee-button icon="fail">失败</lee-button>
-      <lee-button icon="home"></lee-button>
+      <lee-button icon="home1"></lee-button>
       <!-- 组件身上注册了一个 'click' 事件 ，组件内部需要在  用户点击  的时候调用这个 注册的监听函数 -->
       <!-- 组件内部需要调用 emit('eventName',eventObj) -->
       <lee-button type="primary" round @click="alertSth">click-alert</lee-button>
       <lee-button type="primary" round disabled @click="alertSth">click-alert</lee-button>
     </div>
     <div class="dialog-display">
-
-      <lee-dialog title="hello" width="33%" margin_top="10px"></lee-dialog>
-
+      <lee-button type="primary" @click="showDialog1">dialog1</lee-button>
+      <lee-button type="primary" @click="visiable2=true">dialog1</lee-button>
+      <lee-dialog title="hello" width="33%" margin_top="100px" :visiable.sync="visiable1">hello world!</lee-dialog>
       <!-- v-slot:title表示给组件中name值为title的slot 传入内容 -->
-      <!-- <lee-dialog>
-        <template v-slot:title>
-          <h2>标题2</h2>
+      <lee-dialog :visiable.sync="visiable2">
+        <template v-slot:title><h2>FBI warning</h2></template>
+        <p>你确定这个不是你的吗？</p>
+        <template v-slot:footer>
+          <lee-button type="primary">confirm</lee-button>
+          <lee-button type="primary" plain>cancle</lee-button>
         </template>
-      </lee-dialog> -->
+      </lee-dialog>
+    </div>
+    <div class="input-display">
+      <!-- 这相当于给这个组件 :value='value' @input='input1=$event.target.value' -->
+      <lee-input v-model="input1" clearable ></lee-input>
+      <lee-input v-model="input2" type='password' showpassword></lee-input>
+      <lee-input  placeholder='Hello World!' disabled ></lee-input>
     </div>
   </div>
 </template>
@@ -35,25 +44,38 @@
 export default {
   name: "App",
   components: {},
+  data: () => {
+    return {
+      visiable1: false,
+      visiable2: false,
+      input1:'黑客帝国',
+      input2:'123456'
+    };
+  },
   methods: {
     alertSth: () => {
       alert("button clicked");
+    },
+    showDialog1(){
+      this.visiable1 = true;
     }
   }
 };
 </script>
 <style lang='stylus' scoped>
-.button-display {
+.button-display ,.dialog-display ,input-display {
   margin: 20px auto;
-  text-align: center;
 
   .lee-button {
     display: inline-block;
     margin-right: 10px;
   }
 }
-
-.dialog-display {
-  margin: 20px auto;
+.input-display{
+  .lee-input{
+    width:25%;
+    margin-right :15px;
+  }
 }
+
 </style>
