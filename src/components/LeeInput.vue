@@ -18,24 +18,30 @@ v-model原理 : 数据中绑定一个value值，并绑定input事件改变此值
 所以我们在组件封装中要接受 value 这个属性，并且要处理input这个注册的事件
   -->
 
-  <div class="lee-input" :class="{'lee-input-suffix':showSuffix}" >
-      <!-- 通过计算属性控制小图标以及span标签的显示与否 -->
+  <div class="lee-input" :class="{'lee-input-suffix':showSuffix}">
+    <!-- 通过计算属性控制小图标以及span标签的显示与否 -->
+    <!-- 注意不能直接修改type值，它是传进来的属性值，我们通过组件内部的一个数据控制 -->
     <input
       class="lee-input-inner"
       :class="{'is-disabled':disabled}"
       :placeholder="placeholder"
-      :type="type"
+      :type="passwordVisiable ? 'text' : type"
       :disabled="disabled"
       :name="name"
-      :clearable='clearable'
+      :clearable="clearable"
       :showpassword="showpassword"
       :value="value"
       @input="handleInput"
     />
-    <span v-if="showSuffix" class="lee-input-suffix-span" >
-        <i class="iconfont icon-eye" v-if="showpassword" ></i>
-        <!-- 文本框不为空且clearable为true才能显示清空图标 -->
-        <i class="iconfont icon-clear" v-if="clearable && value" @click="clear"></i>
+    <span v-if="showSuffix" class="lee-input-suffix-span">
+      <i
+        class="iconfont icon-eye"
+        :class="{'icon-password-visiable':passwordVisiable}"
+        v-if="showpassword"
+        @click="handlePassword"
+      ></i>
+      <!-- 文本框不为空且clearable为true才能显示清空图标 -->
+      <i class="iconfont icon-clear" v-if="clearable && value" @click="clear"></i>
     </span>
   </div>
 </template>
@@ -43,10 +49,15 @@ v-model原理 : 数据中绑定一个value值，并绑定input事件改变此值
 <script>
 export default {
   name: "lee-input",
-  computed:{
-      showSuffix(){
-          return this.clearable || this.showpassword
-      }
+  computed: {
+    showSuffix() {
+      return this.clearable || this.showpassword;
+    }
+  },
+  data() {
+    return {
+      passwordVisiable: false
+    };
   },
   props: {
     placeholder: {
@@ -81,11 +92,14 @@ export default {
   },
   methods: {
     handleInput(e) {
-      this.$emit("input",e.target.value);
+      this.$emit("input", e.target.value);
     },
-    clear(){
-        // 这里不能直接修改value还是要触发父组件事件
-        this.$emit('input','')
+    clear() {
+      // 这里不能直接修改value还是要触发父组件事件
+      this.$emit("input", "");
+    },
+    handlePassword() {
+      this.passwordVisiable = !this.passwordVisiable;
     }
   }
 };
@@ -152,6 +166,10 @@ export default {
       font-size: 14px;
       cursor: pointer;
       transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+
+    .icon-password-visiable {
+      color: blue;
     }
   }
 }

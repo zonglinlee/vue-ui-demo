@@ -124,10 +124,9 @@ export default {
       padding: 10px 20px 20px;
       text-align: right;
       box-sizing: border-box;
-//深度选择器效果
-//.lee-dialog-mask .lee-dialog-main .lee-dialog-footer[data-v-5f167074] .lee-button:first-child
-      ::v-deep .lee-button:first-child{
-        margin-right :15px;
+
+      ::v-deep .lee-button:first-child {
+        margin-right: 15px;
       }
     }
   }
@@ -141,22 +140,22 @@ export default {
 // 如果用transition做动画，用前三个(进入动画)或后三个(离开动画)类名 或者6个都用
 // 如果用animation做动画，只需要过程之中的两个类名，因为动画中开始帧和结束帧都已经存在了
 .lee-dialog-enter-active {
-  animation: dialog-in-out .6s;
+  animation: dialog-in-out 0.6s;
 }
 
 .lee-dialog-leave-active {
-  animation: dialog-in-out .8s reverse;
+  animation: dialog-in-out 0.8s reverse;
 }
 
 @keyframes dialog-in-out {
   from {
     opacity: 0;
-    transform:translateY(-30px)
+    transform: translateY(-30px);
   }
 
   to {
     opacity: 1;
-    transform:translateY(0)
+    transform: translateY(0);
   }
 }
 </style>
