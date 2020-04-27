@@ -61,6 +61,23 @@
         <lee-radio label="0">女</lee-radio>
       </lee-radio-group>
     </div>
+    <div class="checkbox-display">
+      <lee-checkbox v-model="apple">Apple</lee-checkbox>
+      <lee-checkbox-group v-model="checkboxGroup">
+        <lee-checkbox label="A">A</lee-checkbox>
+        <lee-checkbox label="B">B</lee-checkbox>
+        <lee-checkbox label="C">C</lee-checkbox>
+        <lee-checkbox label="D">D</lee-checkbox>
+      </lee-checkbox-group>
+    </div>
+    <lee-form :model="formData3">
+      <lee-form-item label="请输入:" id="test">
+        <lee-input v-model="formData3.input3"></lee-input>
+      </lee-form-item>
+      <lee-form-item label="switch:">
+        <lee-switch v-model="formData3.switch3"></lee-switch>
+      </lee-form-item>
+    </lee-form>
   </div>
 </template>
 
@@ -75,7 +92,13 @@ export default {
       input1: "黑客帝国",
       input2: "123456",
       activeSwitch: false,
-      gender: "0"
+      gender: "0",
+      apple: false,
+      checkboxGroup: ["A", "C"],
+      formData3: {
+        input3: "饥饿站台",
+        switch3: false
+      }
     };
   },
   methods: {
@@ -89,7 +112,7 @@ export default {
 };
 </script>
 <style lang='stylus' scoped>
-.button-display, .dialog-display, .input-display, .switch-display, .radio-display {
+.button-display, .dialog-display, .input-display, .switch-display, .radio-display, .checkbox-display {
   margin: 20px auto;
 
   .lee-button {
@@ -111,5 +134,9 @@ export default {
     width: 25%;
     margin-right: 15px;
   }
+}
+
+#test {
+  width: 200px;
 }
 </style>

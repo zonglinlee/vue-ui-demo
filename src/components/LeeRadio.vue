@@ -48,7 +48,7 @@ export default {
   computed: {
     model: {
       get() {
-        return this.isGroup ? this.RadioGroup.value : this.value
+        return this.isGroup ? this.radioGroup.value : this.value
       },
       set(value) {
         // 触发父组件给当前组件注册的input事件
@@ -62,7 +62,7 @@ export default {
     },
     // 用于判断radio是否被radioGroup包裹
     isGroup() {
-      return !!this.RadioGroup;
+      return !!this.radioGroup;
     }
   }
 };
